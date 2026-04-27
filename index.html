@@ -17,269 +17,94 @@
             --radius: 12px;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
-            padding-bottom: 50px;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; padding-bottom: 50px; }
 
         /* Header Estetik */
         header {
-            background: var(--surface);
-            padding: 24px 5%;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: var(--surface); padding: 24px 5%; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center;
         }
+        header h1 { font-size: 1.5rem; font-weight: 700; color: var(--primary); letter-spacing: -0.5px; }
 
-        header h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            letter-spacing: -0.5px;
-        }
-
-        /* Container Utama */
-        .container {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
 
         /* Tabs Minimalis */
         .tabs {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 30px;
-            background: var(--surface);
-            padding: 8px;
-            border-radius: var(--radius);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-            width: fit-content;
+            display: flex; gap: 12px; margin-bottom: 30px; background: var(--surface);
+            padding: 8px; border-radius: var(--radius); box-shadow: 0 2px 10px rgba(0,0,0,0.02); width: fit-content;
         }
-
         .tab-btn {
-            padding: 10px 24px;
-            border: none;
-            background: transparent;
-            font-weight: 600;
-            color: var(--text-muted);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            padding: 10px 24px; border: none; background: transparent; font-weight: 600;
+            color: var(--text-muted); border-radius: 8px; cursor: pointer; transition: all 0.3s ease;
         }
+        .tab-btn.active { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(15, 98, 254, 0.2); }
 
-        .tab-btn.active {
-            background: var(--primary);
-            color: white;
-            box-shadow: 0 4px 12px rgba(15, 98, 254, 0.2);
-        }
-
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.4s ease;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
+        .tab-content { display: none; animation: fadeIn 0.4s ease; }
+        .tab-content.active { display: block; }
 
         /* Kartu Section */
         .section-card {
-            background: var(--surface);
-            padding: 24px;
-            border-radius: var(--radius);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-            margin-bottom: 24px;
+            background: var(--surface); padding: 24px; border-radius: var(--radius);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03); margin-bottom: 24px;
         }
-
         .section-title {
-            font-size: 1.25rem;
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 700;
+            font-size: 1.25rem; margin-bottom: 20px; padding-bottom: 12px;
+            border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-weight: 700;
         }
 
         /* Tabel Modern */
-        .table-responsive {
-            overflow-x: auto;
-        }
+        .table-responsive { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th, td { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+        th { background-color: #F8FAFC; font-weight: 600; color: var(--text-muted); font-size: 0.9rem; }
+        tr:hover { background-color: #F8FAFC; }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-        }
-
-        th, td {
-            padding: 14px 16px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        th {
-            background-color: #F8FAFC;
-            font-weight: 600;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        tr:hover {
-            background-color: #F8FAFC;
-        }
-
-        .status-badge {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            display: inline-block;
-        }
-
+        .status-badge { padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; display: inline-block; }
         .status-done { background: #E6F4EA; color: #1E8E3E; }
         .status-progress { background: #FEF7E0; color: #B06000; }
 
         /* Grid Tombol Materi Drive */
-        .materi-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 16px;
-        }
-
+        .materi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
         .btn-materi {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 14px;
-            background: var(--bg-color);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            text-decoration: none;
-            color: var(--text-main);
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center; padding: 14px;
+            background: var(--bg-color); border: 1px solid var(--border); border-radius: 8px;
+            text-decoration: none; color: var(--text-main); font-weight: 600; font-size: 0.95rem; transition: all 0.2s;
         }
-
-        .btn-materi:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: #F0F4FF;
-            transform: translateY(-2px);
-        }
+        .btn-materi:hover { border-color: var(--primary); color: var(--primary); background: #F0F4FF; transform: translateY(-2px); }
 
         /* Kolom Pencarian (Search Bar) QnA */
-        .search-container {
-            margin-bottom: 20px;
-        }
-        
+        .search-container { margin-bottom: 20px; }
         .search-input {
-            width: 100%;
-            padding: 14px 16px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 0.95rem;
-            color: var(--text-main);
-            background-color: var(--bg-color);
-            transition: all 0.3s ease;
+            width: 100%; padding: 14px 16px; border: 1px solid var(--border); border-radius: 8px;
+            font-size: 0.95rem; color: var(--text-main); background-color: var(--bg-color); transition: all 0.3s ease;
         }
-
-        .search-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(15, 98, 254, 0.1);
-            background-color: var(--surface);
-        }
+        .search-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(15, 98, 254, 0.1); background-color: var(--surface); }
 
         /* Accordion QnA */
-        .accordion-item {
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            margin-bottom: 12px;
-            overflow: hidden;
-            background: var(--surface);
-        }
-
+        .accordion-item { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; overflow: hidden; background: var(--surface); }
         .accordion-header {
-            width: 100%;
-            padding: 16px 20px;
-            background: var(--surface);
-            border: none;
-            text-align: left;
-            font-weight: 600;
-            font-size: 1rem;
-            color: var(--text-main);
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            transition: background 0.2s;
-            line-height: 1.5;
-            gap: 15px;
+            width: 100%; padding: 16px 20px; background: var(--surface); border: none; text-align: left;
+            font-weight: 600; font-size: 1rem; color: var(--text-main); cursor: pointer;
+            display: flex; justify-content: space-between; align-items: flex-start; transition: background 0.2s; line-height: 1.5; gap: 15px;
         }
+        .accordion-header:hover { background: #F8FAFC; }
+        
+        .accordion-content { padding: 0 20px; max-height: 0; overflow: hidden; background: var(--bg-color); transition: max-height 0.4s ease, padding 0.4s ease; }
+        .accordion-content p { padding: 16px 0; color: var(--text-muted); font-size: 0.95rem; white-space: pre-line; }
+        
+        .accordion-icon { transition: transform 0.3s ease; margin-top: 2px; color: var(--primary); }
+        .accordion-item.active .accordion-icon { transform: rotate(180deg); }
+        .accordion-item.active .accordion-content { max-height: 3000px; padding-bottom: 16px; }
 
-        .accordion-header:hover {
-            background: #F8FAFC;
-        }
-
-        .accordion-content {
-            padding: 0 20px;
-            max-height: 0;
-            overflow: hidden;
-            background: var(--bg-color);
-            transition: max-height 0.4s ease, padding 0.4s ease;
-        }
-
-        .accordion-content p {
-            padding: 16px 0;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            white-space: pre-line; 
-        }
-
-        .accordion-icon {
-            transition: transform 0.3s ease;
-            margin-top: 2px;
-            color: var(--primary);
-        }
-
-        .accordion-item.active .accordion-icon {
-            transform: rotate(180deg);
-        }
-
-        .accordion-item.active .accordion-content {
-            max-height: 3000px; 
-            padding-bottom: 16px;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <header>
         <h1>Portal Groundcheck DTSEN</h1>
-        <div style="font-size: 0.9rem; color: var(--text-muted); font-weight: 600;">
-            Tim Humas dan Protokol BPS
-        </div>
+        <div style="font-size: 0.9rem; color: var(--text-muted); font-weight: 600;">Tim Humas dan Protokol BPS</div>
     </header>
 
     <div class="container">
@@ -294,26 +119,11 @@
                 <div class="table-responsive">
                     <table>
                         <thead>
-                            <tr>
-                                <th>Kecamatan</th>
-                                <th>Target Dokumen</th>
-                                <th>Realisasi</th>
-                                <th>Status</th>
-                            </tr>
+                            <tr><th>Kecamatan</th><th>Target Dokumen</th><th>Realisasi</th><th>Status</th></tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Pangkal Balam</td>
-                                <td>150</td>
-                                <td>150</td>
-                                <td><span class="status-badge status-done">Selesai</span></td>
-                            </tr>
-                            <tr>
-                                <td>Taman Sari</td>
-                                <td>200</td>
-                                <td>120</td>
-                                <td><span class="status-badge status-progress">Proses</span></td>
-                            </tr>
+                            <tr><td>Pangkal Balam</td><td>150</td><td>150</td><td><span class="status-badge status-done">Selesai</span></td></tr>
+                            <tr><td>Taman Sari</td><td>200</td><td>120</td><td><span class="status-badge status-progress">Proses</span></td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -326,26 +136,11 @@
                 <div class="table-responsive">
                     <table>
                         <thead>
-                            <tr>
-                                <th>Wilayah Kerja ULP</th>
-                                <th>Total RBM</th>
-                                <th>Petugas Ter-assign</th>
-                                <th>Status Sinkronisasi</th>
-                            </tr>
+                            <tr><th>Wilayah Kerja ULP</th><th>Total RBM</th><th>Petugas Ter-assign</th><th>Status Sinkronisasi</th></tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>ULP Pangkal Pinang</td>
-                                <td>67</td>
-                                <td>67</td>
-                                <td><span class="status-badge status-done">Lengkap</span></td>
-                            </tr>
-                            <tr>
-                                <td>ULP Sungailiat</td>
-                                <td>45</td>
-                                <td>16</td>
-                                <td><span class="status-badge status-progress">Kurang Petugas</span></td>
-                            </tr>
+                            <tr><td>ULP Pangkal Pinang</td><td>67</td><td>67</td><td><span class="status-badge status-done">Lengkap</span></td></tr>
+                            <tr><td>ULP Sungailiat</td><td>45</td><td>16</td><td><span class="status-badge status-progress">Kurang Petugas</span></td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -377,7 +172,6 @@
     </div>
 
     <script>
-        // --- 1. Logika Tab Navigasi ---
         function openTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -385,17 +179,34 @@
             document.getElementById('btn-' + tabName).classList.add('active');
         }
 
-        // --- 2. Tarik Data Langsung dari Google Sheets (JSON) ---
-        // ID ini diekstrak dari link yang Anda berikan
+        // FUNGSI BARU (DIPERKUAT): Mengubah link dari berbagai sumber agar langsung terbuka (termasuk semua format gambar dan PNG)
+        function convertImageLink(url) {
+            if (!url) return '';
+            url = url.trim();
+            
+            // Tangkap ID File Google Drive
+            const driveMatch = url.match(/\/(?:d|file\/d)\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
+            
+            if (driveMatch && driveMatch[1] && url.includes('drive.google.com')) {
+                // Menggunakan endpoint "uc?id=" yang stabil untuk merender secara utuh file gambar (PNG, JPG, dll) dari Drive
+                return `https://drive.google.com/uc?id=${driveMatch[1]}`;
+            }
+
+            // Jika link berasal dari Dropbox, pastikan link mengarah ke raw image
+            if (url.includes('dropbox.com')) {
+                return url.replace('dl=0', 'raw=1').replace('dl=1', 'raw=1');
+            }
+
+            // Kembalikan URL asli jika sudah berupa direct link (.png, .jpg) dari server lain
+            return url; 
+        }
+
         const SPREADSHEET_ID = '1WnCEZFiEHFWCI31eUJj5qoPpik_26DE5Fzi8308IFL0'; 
-        
-        // Menggunakan Google Visualization API untuk membaca data langsung
         const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json`;
 
         fetch(url)
             .then(res => res.text())
             .then(data => {
-                // Membersihkan prefix dari Google API agar menjadi JSON valid
                 const jsonText = data.match(/google\.visualization\.Query\.setResponse\(([\s\S\w]+)\)/);
                 if (!jsonText) throw new Error('Format respons tidak dikenali.');
                 
@@ -403,35 +214,32 @@
                 const rows = json.table.rows;
                 
                 const container = document.getElementById('qna-container');
-                container.innerHTML = ''; // Hapus pesan loading
+                container.innerHTML = ''; 
 
-                // Memproses baris demi baris (mengabaikan baris 0 jika itu adalah Header di Sheet)
-                rows.forEach((row, index) => {
-                    // Google JSON menyusun kolom sebagai c[0], c[1], dll.
-                    // Menangani kemungkinan sel (cell) yang kosong (null)
+                rows.forEach((row) => {
                     const nomor = (row.c[0] && row.c[0].v !== null) ? row.c[0].v : '';
                     const tanya = (row.c[1] && row.c[1].v !== null) ? row.c[1].v : '';
-                    const gambar = (row.c[2] && row.c[2].v !== null) ? row.c[2].v : '';
+                    const linkMentah = (row.c[2] && row.c[2].v !== null) ? row.c[2].v : '';
                     const jawab = (row.c[3] && row.c[3].v !== null) ? row.c[3].v : '';
 
-                    // Jika pertanyaan atau jawaban kosong, lewati pembuatan elemen
                     if (!tanya || !jawab) return;
 
-                    // Menggabungkan nomor dan pertanyaan jika nomor ada
                     const titleText = (nomor.toString().trim() !== '') ? `${nomor}. ${tanya}` : tanya;
 
-                    // Membangun elemen HTML untuk gambar jika link ada
+                    // Melewati link mentah ke fungsi konverter Link yang lebih kuat
+                    const gambarFinal = convertImageLink(linkMentah);
+
                     let imgHtml = '';
-                    if (gambar && gambar.toString().trim() !== '') {
+                    if (gambarFinal && gambarFinal.trim() !== '') {
                         imgHtml = `
-                            <div style="margin-top: 16px; margin-bottom: 8px;">
-                                <img src="${gambar.toString().trim()}" alt="Ilustrasi Kendala" 
-                                     style="max-width: 100%; max-height: 450px; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.06); display: block;">
+                            <div style="margin-top: 16px; margin-bottom: 12px; background: #F8FAFC; padding: 8px; border-radius: 8px; border: 1px solid var(--border); display: inline-block;">
+                                <img src="${gambarFinal}" alt="Ilustrasi Kendala" 
+                                     style="max-width: 100%; max-height: 450px; border-radius: 4px; display: block;"
+                                     onerror="this.onerror=null; this.parentElement.innerHTML='<span style=\\'color:#E02424; font-size:0.85rem;\\'>⚠️ Gambar tidak dapat dimuat. Pastikan akses file tersebut di Google Drive sudah diubah menjadi <b>Anyone with the link</b> (Siapa saja yang memiliki link).</span>';">
                             </div>
                         `;
                     }
 
-                    // Membuat elemen item QnA
                     const item = document.createElement('div');
                     item.className = 'accordion-item qna-item';
                     item.innerHTML = `
@@ -448,33 +256,29 @@
                 });
 
                 initAccordion();
-                initSearch(); // Mengaktifkan fitur pencarian setelah data dimuat
+                initSearch(); 
             })
             .catch(err => {
                 document.getElementById('qna-container').innerHTML = 
                     `<p style="text-align: center; color: #E02424; padding: 20px; background: #FDE8E8; border-radius: 8px; border: 1px solid #F8B4B4;">
-                        <b>Gagal memuat data QnA.</b><br>Pastikan akses Google Sheets Anda diatur ke <b>"Anyone with the link"</b> (Siapa saja yang memiliki link).
+                        <b>Gagal memuat data QnA.</b><br>Pastikan akses Google Sheets Anda diatur ke <b>"Anyone with the link"</b>.
                     </p>`;
                 console.error('Error fetching Sheets:', err);
             });
 
-        // --- 3. Logika Klik Accordion ---
         function initAccordion() {
             document.querySelectorAll('.accordion-header').forEach(btn => {
                 btn.onclick = () => {
                     const parent = btn.parentElement;
                     const isActive = parent.classList.contains('active');
                     
-                    // Menutup semua accordion agar tampilan tetap rapi
                     document.querySelectorAll('.accordion-item').forEach(x => x.classList.remove('active'));
                     
-                    // Membuka yang sedang diklik
                     if (!isActive) parent.classList.add('active');
                 };
             });
         }
 
-        // --- 4. Logika Fitur Search (Pencarian) ---
         function initSearch() {
             document.getElementById('searchInput').addEventListener('input', function() {
                 const keyword = this.value.toLowerCase();
@@ -484,12 +288,11 @@
                     const pertanyaan = item.querySelector('.qna-title').textContent.toLowerCase();
                     const jawaban = item.querySelector('.qna-desc').textContent.toLowerCase();
 
-                    // Mencocokkan kata kunci dengan pertanyaan atau jawaban
                     if (pertanyaan.includes(keyword) || jawaban.includes(keyword)) {
                         item.style.display = 'block';
                     } else {
                         item.style.display = 'none';
-                        item.classList.remove('active'); // Otomatis menutup jika disembunyikan
+                        item.classList.remove('active'); 
                     }
                 });
             });
