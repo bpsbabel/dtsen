@@ -18,39 +18,49 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        html {
+            scroll-behavior: smooth;
+            /* Memberikan jarak gulir agar judul section tidak tertutup navbar */
+            scroll-padding-top: 160px; 
+        }
+
         body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; padding-bottom: 50px; }
 
-        /* Header Estetik */
+        /* Wrapper Sticky untuk Header + Navbar */
+        .sticky-wrapper {
+            position: sticky; top: 0; z-index: 100;
+            background: var(--surface); box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
         header {
-            background: var(--surface); padding: 24px 5%; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 5%; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--border);
         }
-        header h1 { font-size: 1.5rem; font-weight: 700; color: var(--primary); letter-spacing: -0.5px; }
+        header h1 { font-size: 1.4rem; font-weight: 700; color: var(--primary); }
 
-        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
-
-        /* Tabs Minimalis */
-        .tabs {
-            display: flex; gap: 12px; margin-bottom: 30px; background: var(--surface);
-            padding: 8px; border-radius: var(--radius); box-shadow: 0 2px 10px rgba(0,0,0,0.02); width: fit-content;
+        /* Navigation Bar (Menu) */
+        .top-nav {
+            display: flex; gap: 10px; padding: 12px 5%; overflow-x: auto; white-space: nowrap;
         }
-        .tab-btn {
-            padding: 10px 24px; border: none; background: transparent; font-weight: 600;
-            color: var(--text-muted); border-radius: 8px; cursor: pointer; transition: all 0.3s ease;
+        .nav-link {
+            text-decoration: none; font-weight: 600; color: var(--text-muted);
+            padding: 8px 18px; border-radius: 8px; background: var(--bg-color); transition: all 0.3s ease;
         }
-        .tab-btn.active { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(15, 98, 254, 0.2); }
+        .nav-link:hover, .nav-link.active {
+            background: var(--primary); color: white; box-shadow: 0 4px 10px rgba(15, 98, 254, 0.2);
+        }
 
-        .tab-content { display: none; animation: fadeIn 0.4s ease; }
-        .tab-content.active { display: block; }
+        .container { max-width: 900px; margin: 30px auto; padding: 0 20px; }
 
         /* Kartu Section */
         .section-card {
             background: var(--surface); padding: 24px; border-radius: var(--radius);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03); margin-bottom: 24px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02); margin-bottom: 30px;
         }
         .section-title {
-            font-size: 1.25rem; margin-bottom: 20px; padding-bottom: 12px;
-            border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-weight: 700;
+            font-size: 1.25rem; margin-bottom: 20px; font-weight: 700;
+            border-bottom: 1px solid var(--border); padding-bottom: 12px;
         }
 
         /* Tabel Modern */
@@ -59,199 +69,253 @@
         th, td { padding: 14px 16px; border-bottom: 1px solid var(--border); }
         th { background-color: #F8FAFC; font-weight: 600; color: var(--text-muted); font-size: 0.9rem; }
         tr:hover { background-color: #F8FAFC; }
-
         .status-badge { padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; display: inline-block; }
         .status-done { background: #E6F4EA; color: #1E8E3E; }
         .status-progress { background: #FEF7E0; color: #B06000; }
 
-        /* Grid Tombol Materi Drive */
+        /* Tombol Materi */
         .materi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
         .btn-materi {
             display: flex; align-items: center; justify-content: center; padding: 14px;
             background: var(--bg-color); border: 1px solid var(--border); border-radius: 8px;
-            text-decoration: none; color: var(--text-main); font-weight: 600; font-size: 0.95rem; transition: all 0.2s;
+            text-decoration: none; color: var(--text-main); font-weight: 600; transition: all 0.2s;
         }
-        .btn-materi:hover { border-color: var(--primary); color: var(--primary); background: #F0F4FF; transform: translateY(-2px); }
+        .btn-materi:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); }
 
-        /* Kolom Pencarian (Search Bar) QnA */
-        .search-container { margin-bottom: 20px; }
+        /* Search Bar */
         .search-input {
             width: 100%; padding: 14px 16px; border: 1px solid var(--border); border-radius: 8px;
-            font-size: 0.95rem; color: var(--text-main); background-color: var(--bg-color); transition: all 0.3s ease;
+            margin-bottom: 20px; font-size: 0.95rem; background: var(--bg-color); outline: none; transition: 0.3s;
         }
-        .search-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(15, 98, 254, 0.1); background-color: var(--surface); }
+        .search-input:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 3px rgba(15, 98, 254, 0.1); }
 
-        /* Accordion QnA */
-        .accordion-item { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; overflow: hidden; background: var(--surface); }
+        /* Accordion Style */
+        .accordion-item { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; background: #fff; overflow: hidden; }
         .accordion-header {
-            width: 100%; padding: 16px 20px; background: var(--surface); border: none; text-align: left;
-            font-weight: 600; font-size: 1rem; color: var(--text-main); cursor: pointer;
-            display: flex; justify-content: space-between; align-items: flex-start; transition: background 0.2s; line-height: 1.5; gap: 15px;
+            width: 100%; padding: 16px 20px; border: none; text-align: left; background: none;
+            font-weight: 600; font-size: 0.95rem; cursor: pointer; display: flex; justify-content: space-between; gap: 10px; transition: 0.2s;
         }
-        .accordion-header:hover { background: #F8FAFC; }
-        
-        .accordion-content { padding: 0 20px; max-height: 0; overflow: hidden; background: var(--bg-color); transition: max-height 0.4s ease, padding 0.4s ease; }
-        .accordion-content p { padding: 16px 0; color: var(--text-muted); font-size: 0.95rem; white-space: pre-line; }
-        
-        .accordion-icon { transition: transform 0.3s ease; margin-top: 2px; color: var(--primary); }
+        .accordion-header:hover { background: #f8f9fa; }
+        .accordion-icon { transition: 0.3s; color: var(--primary); }
         .accordion-item.active .accordion-icon { transform: rotate(180deg); }
-        .accordion-item.active .accordion-content { max-height: 3000px; padding-bottom: 16px; }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: var(--bg-color); }
+        .accordion-content .inner-box { padding: 16px 20px; }
+        .accordion-content p { color: var(--text-muted); font-size: 0.9rem; white-space: pre-line; }
+
+        /* Image Styling di dalam QnA */
+        .qna-img-wrapper { margin-bottom: 12px; display: inline-block; cursor: zoom-in; }
+        .qna-img { max-width: 100%; max-height: 300px; border-radius: 6px; border: 1px solid var(--border); display: block; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .img-hint { font-size: 0.75rem; color: var(--primary); margin-top: 6px; display: block; font-weight: 600; }
 
         /* MODAL POP-UP & ZOOM SCROLLABLE */
         .modal {
             display: none; position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); overflow: auto; /* Memungkinkan scroll pada modal */
+            background: rgba(0,0,0,0.85); overflow: auto; /* Memungkinkan modal untuk discroll */
         }
         .modal-container {
-            display: flex; min-width: 100%; min-height: 100%; padding: 40px; box-sizing: border-box;
+            display: flex; min-width: 100%; min-height: 100%; padding: 50px 20px;
+            justify-content: center; align-items: flex-start; /* flex-start agar gambar yang panjang tidak terpotong atasnya */
+            box-sizing: border-box;
         }
         .modal-content {
-            margin: auto; /* Otomatis menengahkan gambar dan mempertahankan kemampuan scroll tanpa terpotong */
-            max-width: 100%; max-height: 85vh; border-radius: 6px; box-shadow: 0 5px 25px rgba(0,0,0,0.5);
-            cursor: zoom-in; object-fit: contain;
-            transition: max-width 0.3s ease, width 0.3s ease, max-height 0.3s ease;
+            margin: auto; max-width: 90%; max-height: 80vh; border-radius: 6px; box-shadow: 0 5px 30px rgba(0,0,0,0.6);
+            transition: width 0.2s ease, max-width 0.2s ease, max-height 0.2s ease;
+            object-fit: contain; cursor: crosshair;
         }
-        .modal-content.zoomed {
-            max-width: none; max-height: none; width: 160vw; /* Memaksa gambar melebar 1.6x layar */
-            cursor: zoom-out;
+
+        /* Panel Kontrol Zoom */
+        .zoom-controls {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 2002;
+            display: flex; gap: 10px; background: rgba(255, 255, 255, 0.95); padding: 10px 20px;
+            border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); backdrop-filter: blur(5px);
         }
+        .zoom-controls button {
+            border: none; background: var(--surface); color: var(--text-main); font-weight: bold;
+            padding: 8px 16px; border-radius: 20px; cursor: pointer; transition: 0.2s; border: 1px solid var(--border);
+        }
+        .zoom-controls button:hover { background: var(--primary); color: white; border-color: var(--primary); }
+
         .close-modal {
             position: fixed; top: 20px; right: 30px; color: white; font-size: 40px;
             font-weight: bold; cursor: pointer; z-index: 2001; text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Portal Groundcheck DTSEN</h1>
-        <div style="font-size: 0.9rem; color: var(--text-muted); font-weight: 600;">BPS Provinsi Kepulauan Bangka Belitung</div>
-    </header>
+    <div class="sticky-wrapper">
+        <header>
+            <h1>Portal Groundcheck DTSEN</h1>
+            <div style="font-size: 0.85rem; color: var(--text-muted);">BPS Prov. Kepulauan Bangka Belitung</div>
+        </header>
+
+        <nav class="top-nav">
+            <a href="#section-pbi" class="nav-link active">Monitoring PBI</a>
+            <a href="#section-pln" class="nav-link">Monitoring PLN</a>
+            <a href="#section-materi" class="nav-link">Materi & Pedoman</a>
+            <a href="#section-qna" class="nav-link">QnA Petugas</a>
+        </nav>
+    </div>
 
     <div class="container">
-        <div class="tabs">
-            <button class="tab-btn" onclick="openTab('pbi')" id="btn-pbi">Kegiatan PBI</button>
-            <button class="tab-btn active" onclick="openTab('pln')" id="btn-pln">Kegiatan GC PLN</button>
-        </div>
-
-        <div id="pbi" class="tab-content">
-            <div class="section-card">
-                <h2 class="section-title">Monitoring Progress PBI</h2>
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr><th>Kecamatan</th><th>Target Dokumen</th><th>Realisasi</th><th>Status</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>Pangkal Balam</td><td>150</td><td>150</td><td><span class="status-badge status-done">Selesai</span></td></tr>
-                            <tr><td>Taman Sari</td><td>200</td><td>120</td><td><span class="status-badge status-progress">Proses</span></td></tr>
-                        </tbody>
-                    </table>
-                </div>
+        
+        <div id="section-pbi" class="section-card scroll-section">
+            <h2 class="section-title">Monitoring Progress PBI</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr><th>Kecamatan</th><th>Target Dokumen</th><th>Realisasi</th><th>Status</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Pangkal Balam</td><td>150</td><td>150</td><td><span class="status-badge status-done">Selesai</span></td></tr>
+                        <tr><td>Taman Sari</td><td>200</td><td>120</td><td><span class="status-badge status-progress">Proses</span></td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
-        <div id="pln" class="tab-content active">
-            <div class="section-card">
-                <h2 class="section-title">Monitoring Progress GC PLN</h2>
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr><th>Wilayah Kerja ULP</th><th>Total RBM</th><th>Petugas Ter-assign</th><th>Status Sinkronisasi</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>ULP Pangkal Pinang</td><td>67</td><td>67</td><td><span class="status-badge status-done">Lengkap</span></td></tr>
-                            <tr><td>ULP Sungailiat</td><td>45</td><td>16</td><td><span class="status-badge status-progress">Kurang Petugas</span></td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="section-card">
-                <h2 class="section-title">Materi & Pedoman (Google Drive)</h2>
-                <div class="materi-grid">
-                    <a href="URL_GOOGLE_DRIVE_ANDA_DISINI" target="_blank" class="btn-materi">📘 Buku Pedoman GC PLN</a>
-                    <a href="URL_GOOGLE_DRIVE_ANDA_DISINI" target="_blank" class="btn-materi">📄 Surat Tugas & Koordinasi</a>
-                    <a href="URL_GOOGLE_DRIVE_ANDA_DISINI" target="_blank" class="btn-materi">📊 Infografis Tatacara</a>
-                </div>
-            </div>
-
-            <div class="section-card">
-                <h2 class="section-title">QnA Kendala Aplikasi Fasih</h2>
-                
-                <div class="search-container">
-                    <input type="text" id="searchInput" class="search-input" placeholder="🔍 Cari kendala atau solusi di sini...">
-                </div>
-
-                <div class="accordion" id="qna-container">
-                    <p style="text-align: center; color: var(--text-muted); padding: 20px;">
-                        ⏳ Menghubungkan ke server data...
-                    </p>
-                </div>
+        <div id="section-pln" class="section-card scroll-section">
+            <h2 class="section-title">Monitoring Progress GC PLN</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr><th>Wilayah Kerja ULP</th><th>Total RBM</th><th>Petugas Ter-assign</th><th>Status Sinkronisasi</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>ULP Pangkal Pinang</td><td>67</td><td>67</td><td><span class="status-badge status-done">Lengkap</span></td></tr>
+                        <tr><td>ULP Sungailiat</td><td>45</td><td>16</td><td><span class="status-badge status-progress">Kurang Petugas</span></td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
+
+        <div id="section-materi" class="section-card scroll-section">
+            <h2 class="section-title">Materi & Pedoman (Google Drive)</h2>
+            <div class="materi-grid">
+                <a href="URL_GOOGLE_DRIVE_ANDA_DISINI" target="_blank" class="btn-materi">📘 Buku Pedoman GC PLN</a>
+                <a href="URL_GOOGLE_DRIVE_ANDA_DISINI" target="_blank" class="btn-materi">📄 Surat Tugas & Koordinasi</a>
+                <a href="URL_GOOGLE_DRIVE_ANDA_DISINI" target="_blank" class="btn-materi">📊 Infografis Tatacara</a>
+            </div>
+        </div>
+
+        <div id="section-qna" class="section-card scroll-section">
+            <h2 class="section-title">QnA Kendala Aplikasi Fasih</h2>
+            
+            <div class="search-container">
+                <input type="text" id="searchInput" class="search-input" placeholder="🔍 Cari kendala atau solusi di sini...">
+            </div>
+
+            <div class="accordion" id="qna-container">
+                <p style="text-align: center; color: var(--text-muted); padding: 20px;">
+                    ⏳ Menghubungkan ke server data...
+                </p>
+            </div>
+        </div>
+
     </div>
 
     <div id="imageModal" class="modal" onclick="closeModal()">
         <span class="close-modal" onclick="closeModal()">&times;</span>
+        
+        <div class="zoom-controls" onclick="event.stopPropagation()">
+            <button onclick="zoomImg('out', event)">➖ Perkecil</button>
+            <button onclick="resetZoom(event)">Reset</button>
+            <button onclick="zoomImg('in', event)">➕ Perbesar</button>
+        </div>
+
         <div class="modal-container">
-            <img class="modal-content" id="imgFull" onclick="toggleZoom(event)">
+            <img class="modal-content" id="imgFull" onclick="event.stopPropagation()">
         </div>
     </div>
 
     <script>
-        function openTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(tabName).classList.add('active');
-            document.getElementById('btn-' + tabName).classList.add('active');
-        }
+        // FUNGSI HIGHLIGHT NAVBAR SAAT DI-SCROLL
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const sections = document.querySelectorAll('.scroll-section');
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                // Offset dikurangi 170 agar highlight berubah sebelum section menyentuh atap
+                if (pageYOffset >= sectionTop - 170) {
+                    current = section.getAttribute('id');
+                }
+            });
 
-        // FUNGSI MODAL DAN ZOOM SCROLLABLE
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // FUNGSI MODAL DAN KONTROL ZOOM
+        let currentScale = 1;
+        const baseWidth = 90; // Ukuran awal 90% layar
+
         function openModal(src, event) {
             if (event) event.stopPropagation(); 
-            
             const modal = document.getElementById('imageModal');
             const img = document.getElementById('imgFull');
             
-            // Menampilkan modal
             modal.style.display = 'block';
             img.src = src;
-            img.classList.remove('zoomed'); // Reset ke ukuran awal
-            document.body.style.overflow = 'hidden'; // Matikan scroll halaman utama
+            resetZoom(); // Selalu mulai dari ukuran normal
+            document.body.style.overflow = 'hidden'; 
         }
 
         function closeModal() {
             document.getElementById('imageModal').style.display = 'none';
-            document.body.style.overflow = 'auto'; // Nyalakan kembali scroll halaman utama
+            document.body.style.overflow = 'auto'; 
         }
 
-        function toggleZoom(event) {
-            event.stopPropagation(); 
+        function zoomImg(direction, event) {
+            if(event) event.stopPropagation();
+            
+            if (direction === 'in') currentScale += 0.4; // Menambah skala 40%
+            else if (direction === 'out') currentScale -= 0.4; // Mengurangi skala 40%
+            
+            // Batas maksimal dan minimal zoom
+            if (currentScale < 0.6) currentScale = 0.6;
+            if (currentScale > 3.5) currentScale = 3.5;
+            
+            applyZoom();
+        }
+
+        function resetZoom(event) {
+            if(event) event.stopPropagation();
+            currentScale = 1;
+            applyZoom();
+        }
+
+        function applyZoom() {
             const img = document.getElementById('imgFull');
             
-            // Tambahkan/hapus class 'zoomed' yang memperbesar dimensi width/height
-            img.classList.toggle('zoomed');
+            if (currentScale === 1) {
+                // Tampilan default (Fit to screen)
+                img.style.width = 'auto';
+                img.style.maxWidth = '90%';
+                img.style.maxHeight = '80vh';
+            } else {
+                // Merubah fisik dimensi (Width) agar container modal bisa men-generate Scrollbar
+                img.style.width = (baseWidth * currentScale) + '%';
+                img.style.maxWidth = 'none';
+                img.style.maxHeight = 'none';
+            }
         }
 
-        // FUNGSI KONVERSI LINK GOOGLE DRIVE
+        // FUNGSI KONVERSI LINK GOOGLE DRIVE (Sz=w2000 untuk resolusi ekstra tajam saat di-zoom)
         function convertImageLink(url) {
             if (!url) return '';
             url = url.trim();
-            
             const driveMatch = url.match(/\/(?:d|file\/d)\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
-            
             if (driveMatch && driveMatch[1] && url.includes('drive.google.com')) {
-                // sz=w2000 agar saat gambar di-zoom ukurannya tetap tidak pecah (resolusi tinggi)
                 return `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w2000`;
             }
-
             if (url.includes('dropbox.com')) {
                 return url.replace('dl=0', 'raw=1').replace('dl=1', 'raw=1');
             }
-
             return url; 
         }
 
@@ -266,7 +330,6 @@
                 
                 const json = JSON.parse(jsonText[1]);
                 const rows = json.table.rows;
-                
                 const container = document.getElementById('qna-container');
                 container.innerHTML = ''; 
 
@@ -284,12 +347,10 @@
                     let imgHtml = '';
                     if (gambarFinal && gambarFinal.trim() !== '') {
                         imgHtml = `
-                            <div style="margin-top: 16px; margin-bottom: 12px; background: #F8FAFC; padding: 8px; border-radius: 8px; border: 1px solid var(--border); display: inline-block;">
-                                <img src="${gambarFinal}" alt="Ilustrasi Kendala" 
-                                     style="max-width: 100%; max-height: 450px; border-radius: 4px; display: block; cursor: zoom-in;"
-                                     onclick="openModal('${gambarFinal}', event)"
-                                     onerror="this.onerror=null; this.parentElement.innerHTML='<span style=\\'color:#E02424; font-size:0.85rem;\\'>⚠️ Gambar gagal dimuat. Pastikan akses link di Google Drive Anda adalah \\'Siapa saja yang memiliki link\\'.</span>';">
-                                <span style="font-size: 0.75rem; color: var(--primary); display: block; margin-top: 6px; font-weight: 500;">🔍 Klik gambar untuk memperbesar</span>
+                            <div class="qna-img-wrapper" onclick="openModal('${gambarFinal}', event)">
+                                <img src="${gambarFinal}" class="qna-img" alt="Ilustrasi Kendala"
+                                     onerror="this.onerror=null; this.parentElement.innerHTML='<span style=\\'color:#E02424; font-size:0.85rem;\\'>⚠️ Gambar gagal dimuat. Pastikan akses link di Google Drive Anda adalah \\'Anyone with the link\\'.</span>';">
+                                <span class="img-hint">🔍 Klik gambar untuk memperbesar</span>
                             </div>
                         `;
                     }
@@ -297,60 +358,61 @@
                     const item = document.createElement('div');
                     item.className = 'accordion-item qna-item';
                     item.innerHTML = `
-                        <button class="accordion-header">
-                            <span class="qna-title">${titleText}</span>
+                        <button class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>${titleText}</span>
                             <span class="accordion-icon">▼</span>
                         </button>
                         <div class="accordion-content">
-                            ${imgHtml}
-                            <p class="qna-desc">${jawab}</p>
+                            <div class="inner-box">
+                                ${imgHtml}
+                                <p class="qna-desc">${jawab}</p>
+                            </div>
                         </div>
                     `;
                     container.appendChild(item);
                 });
-
-                initAccordion();
-                initSearch(); 
             })
             .catch(err => {
                 document.getElementById('qna-container').innerHTML = 
-                    `<p style="text-align: center; color: #E02424; padding: 20px; background: #FDE8E8; border-radius: 8px; border: 1px solid #F8B4B4;">
+                    `<p style="text-align: center; color: #E02424; padding: 20px; background: #FDE8E8; border-radius: 8px;">
                         <b>Gagal memuat data QnA.</b><br>Pastikan akses Google Sheets Anda diatur ke <b>"Anyone with the link"</b>.
                     </p>`;
                 console.error('Error fetching Sheets:', err);
             });
 
-        function initAccordion() {
-            document.querySelectorAll('.accordion-header').forEach(btn => {
-                btn.onclick = () => {
-                    const parent = btn.parentElement;
-                    const isActive = parent.classList.contains('active');
-                    
-                    document.querySelectorAll('.accordion-item').forEach(x => x.classList.remove('active'));
-                    
-                    if (!isActive) parent.classList.add('active');
-                };
+        // FUNGSI BUKA TUTUP AKORDION
+        function toggleAccordion(el) {
+            const item = el.parentElement;
+            const content = el.nextElementSibling;
+            const isOpen = item.classList.contains('active');
+            
+            document.querySelectorAll('.accordion-item').forEach(acc => {
+                acc.classList.remove('active');
+                acc.querySelector('.accordion-content').style.maxHeight = null;
             });
+            
+            if (!isOpen) {
+                item.classList.add('active');
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
         }
 
-        function initSearch() {
-            document.getElementById('searchInput').addEventListener('input', function() {
-                const keyword = this.value.toLowerCase();
-                const qnaItems = document.querySelectorAll('.qna-item');
-
-                qnaItems.forEach(item => {
-                    const pertanyaan = item.querySelector('.qna-title').textContent.toLowerCase();
-                    const jawaban = item.querySelector('.qna-desc').textContent.toLowerCase();
-
-                    if (pertanyaan.includes(keyword) || jawaban.includes(keyword)) {
-                        item.style.display = 'block';
-                    } else {
-                        item.style.display = 'none';
-                        item.classList.remove('active'); 
-                    }
-                });
+        // FUNGSI PENCARIAN (SEARCH)
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const keyword = this.value.toLowerCase();
+            document.querySelectorAll('.qna-item').forEach(item => {
+                const pertanyaan = item.querySelector('.accordion-header span').textContent.toLowerCase();
+                const jawaban = item.querySelector('.qna-desc').textContent.toLowerCase();
+                
+                if (pertanyaan.includes(keyword) || jawaban.includes(keyword)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                    item.classList.remove('active'); 
+                    item.querySelector('.accordion-content').style.maxHeight = null;
+                }
             });
-        }
+        });
     </script>
 </body>
 </html>
