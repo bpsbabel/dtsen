@@ -97,24 +97,26 @@
         .accordion-item.active .accordion-icon { transform: rotate(180deg); }
         .accordion-item.active .accordion-content { max-height: 3000px; padding-bottom: 16px; }
 
-        /* MODAL POP-UP & ZOOM GAMBAR */
+        /* MODAL POP-UP & ZOOM SCROLLABLE */
         .modal {
             display: none; position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); justify-content: center; align-items: center; overflow: auto;
+            background: rgba(0,0,0,0.85); overflow: auto; /* Memungkinkan scroll pada modal */
         }
         .modal-container {
-            position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;
+            display: flex; min-width: 100%; min-height: 100%; padding: 40px; box-sizing: border-box;
         }
         .modal-content {
-            max-width: 90%; max-height: 90vh; border-radius: 6px; transition: transform 0.3s ease;
-            cursor: zoom-in; object-fit: contain; box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+            margin: auto; /* Otomatis menengahkan gambar dan mempertahankan kemampuan scroll tanpa terpotong */
+            max-width: 100%; max-height: 85vh; border-radius: 6px; box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+            cursor: zoom-in; object-fit: contain;
+            transition: max-width 0.3s ease, width 0.3s ease, max-height 0.3s ease;
         }
         .modal-content.zoomed {
-            transform: scale(1.6); /* Level zoom saat gambar diklik */
+            max-width: none; max-height: none; width: 160vw; /* Memaksa gambar melebar 1.6x layar */
             cursor: zoom-out;
         }
         .close-modal {
-            position: absolute; top: 20px; right: 30px; color: white; font-size: 40px;
+            position: fixed; top: 20px; right: 30px; color: white; font-size: 40px;
             font-weight: bold; cursor: pointer; z-index: 2001; text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
 
@@ -192,9 +194,9 @@
         </div>
     </div>
 
-    <div id="imageModal" class="modal">
+    <div id="imageModal" class="modal" onclick="closeModal()">
         <span class="close-modal" onclick="closeModal()">&times;</span>
-        <div class="modal-container" onclick="closeModal()">
+        <div class="modal-container">
             <img class="modal-content" id="imgFull" onclick="toggleZoom(event)">
         </div>
     </div>
@@ -207,38 +209,31 @@
             document.getElementById('btn-' + tabName).classList.add('active');
         }
 
-        // FUNGSI MODAL DAN ZOOM GAMBAR
+        // FUNGSI MODAL DAN ZOOM SCROLLABLE
         function openModal(src, event) {
-            // Mencegah klik pada gambar merambat ke tombol accordion (agar tidak tertutup)
             if (event) event.stopPropagation(); 
             
             const modal = document.getElementById('imageModal');
             const img = document.getElementById('imgFull');
-            modal.style.display = 'flex';
+            
+            // Menampilkan modal
+            modal.style.display = 'block';
             img.src = src;
-            img.classList.remove('zoomed'); // Reset zoom saat gambar baru dibuka
-            document.body.style.overflow = 'hidden'; // Mengunci scroll halaman belakang
+            img.classList.remove('zoomed'); // Reset ke ukuran awal
+            document.body.style.overflow = 'hidden'; // Matikan scroll halaman utama
         }
 
         function closeModal() {
             document.getElementById('imageModal').style.display = 'none';
-            document.body.style.overflow = 'auto'; // Membuka kembali scroll halaman
+            document.body.style.overflow = 'auto'; // Nyalakan kembali scroll halaman utama
         }
 
         function toggleZoom(event) {
-            event.stopPropagation(); // Mencegah modal tertutup saat gambar sedang di-zoom
+            event.stopPropagation(); 
             const img = document.getElementById('imgFull');
-            img.classList.toggle('zoomed');
             
-            // Memberikan ruang scroll jika gambar sedang diperbesar
-            const modalContainer = document.querySelector('.modal-container');
-            if (img.classList.contains('zoomed')) {
-                modalContainer.style.alignItems = 'flex-start';
-                modalContainer.style.overflow = 'auto';
-            } else {
-                modalContainer.style.alignItems = 'center';
-                modalContainer.style.overflow = 'hidden';
-            }
+            // Tambahkan/hapus class 'zoomed' yang memperbesar dimensi width/height
+            img.classList.toggle('zoomed');
         }
 
         // FUNGSI KONVERSI LINK GOOGLE DRIVE
@@ -249,8 +244,8 @@
             const driveMatch = url.match(/\/(?:d|file\/d)\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
             
             if (driveMatch && driveMatch[1] && url.includes('drive.google.com')) {
-                // sz=w1200 agar gambar tetap tajam ketika di-zoom in
-                return `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w1200`;
+                // sz=w2000 agar saat gambar di-zoom ukurannya tetap tidak pecah (resolusi tinggi)
+                return `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w2000`;
             }
 
             if (url.includes('dropbox.com')) {
