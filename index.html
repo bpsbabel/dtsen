@@ -263,7 +263,7 @@
         }
 
         .accordion-item.active .accordion-content {
-            max-height: 2500px; 
+            max-height: 3000px; 
             padding-bottom: 16px;
         }
 
@@ -278,7 +278,7 @@
     <header>
         <h1>Portal Groundcheck DTSEN</h1>
         <div style="font-size: 0.9rem; color: var(--text-muted); font-weight: 600;">
-            Tim Humas dan Protokol
+            Tim Humas dan Protokol BPS
         </div>
     </header>
 
@@ -364,12 +364,12 @@
                 <h2 class="section-title">QnA Kendala Aplikasi Fasih</h2>
                 
                 <div class="search-container">
-                    <input type="text" id="searchInput" class="search-input" placeholder="🔍 Cari kendala atau kata kunci jawaban di sini...">
+                    <input type="text" id="searchInput" class="search-input" placeholder="🔍 Cari kendala atau solusi di sini...">
                 </div>
 
                 <div class="accordion" id="qna-container">
                     <p style="text-align: center; color: var(--text-muted); padding: 20px;">
-                        ⏳ Memuat data QnA terbaru...
+                        ⏳ Menghubungkan ke server data...
                     </p>
                 </div>
             </div>
@@ -385,124 +385,114 @@
             document.getElementById('btn-' + tabName).classList.add('active');
         }
 
-        // --- 2. Fetch Data CSV dari Google Sheets ---
-        // PENTING: Ganti dengan URL CSV (pastikan URL berakhiran /pub?output=csv)
-        const csvUrl = 'https://drive.google.com/file/d/1z8PWkykbf1k-4fj61A-Kk0ScxoNLbvrl/view?usp=sharing'; 
+        // --- 2. Tarik Data Langsung dari Google Sheets (JSON) ---
+        // ID ini diekstrak dari link yang Anda berikan
+        const SPREADSHEET_ID = '1WnCEZFiEHFWCI31eUJj5qoPpik_26DE5Fzi8308IFL0'; 
+        
+        // Menggunakan Google Visualization API untuk membaca data langsung
+        const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json`;
 
-        fetch(csvUrl)
-            .then(response => response.text())
-            .then(csvText => {
-                const qnaContainer = document.getElementById('qna-container');
-                qnaContainer.innerHTML = ''; 
+        fetch(url)
+            .then(res => res.text())
+            .then(data => {
+                // Membersihkan prefix dari Google API agar menjadi JSON valid
+                const jsonText = data.match(/google\.visualization\.Query\.setResponse\(([\s\S\w]+)\)/);
+                if (!jsonText) throw new Error('Format respons tidak dikenali.');
+                
+                const json = JSON.parse(jsonText[1]);
+                const rows = json.table.rows;
+                
+                const container = document.getElementById('qna-container');
+                container.innerHTML = ''; // Hapus pesan loading
 
-                const rows = parseCSV(csvText);
+                // Memproses baris demi baris (mengabaikan baris 0 jika itu adalah Header di Sheet)
+                rows.forEach((row, index) => {
+                    // Google JSON menyusun kolom sebagai c[0], c[1], dll.
+                    // Menangani kemungkinan sel (cell) yang kosong (null)
+                    const nomor = (row.c[0] && row.c[0].v !== null) ? row.c[0].v : '';
+                    const tanya = (row.c[1] && row.c[1].v !== null) ? row.c[1].v : '';
+                    const gambar = (row.c[2] && row.c[2].v !== null) ? row.c[2].v : '';
+                    const jawab = (row.c[3] && row.c[3].v !== null) ? row.c[3].v : '';
 
-                for (let i = 1; i < rows.length; i++) {
-                    const nomor = rows[i][0];        // Kolom A: Nomor
-                    const pertanyaan = rows[i][1];   // Kolom B: Pertanyaan
-                    const linkGambar = rows[i][2];   // Kolom C: Link Gambar permasalahan
-                    const jawaban = rows[i][3];      // Kolom D: Jawaban
+                    // Jika pertanyaan atau jawaban kosong, lewati pembuatan elemen
+                    if (!tanya || !jawab) return;
 
-                    if (!pertanyaan || !jawaban) continue; 
+                    // Menggabungkan nomor dan pertanyaan jika nomor ada
+                    const titleText = (nomor.toString().trim() !== '') ? `${nomor}. ${tanya}` : tanya;
 
-                    const teksPertanyaan = (nomor && nomor.trim() !== '') 
-                        ? `${nomor}. ${pertanyaan}` 
-                        : pertanyaan;
-
-                    let elemenGambar = '';
-                    if (linkGambar && linkGambar.trim() !== '') {
-                        elemenGambar = `
+                    // Membangun elemen HTML untuk gambar jika link ada
+                    let imgHtml = '';
+                    if (gambar && gambar.toString().trim() !== '') {
+                        imgHtml = `
                             <div style="margin-top: 16px; margin-bottom: 8px;">
-                                <img src="${linkGambar.trim()}" alt="Ilustrasi Kendala Fasih" 
+                                <img src="${gambar.toString().trim()}" alt="Ilustrasi Kendala" 
                                      style="max-width: 100%; max-height: 450px; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.06); display: block;">
                             </div>
                         `;
                     }
 
-                    const accordionItem = `
-                        <div class="accordion-item qna-item">
-                            <button class="accordion-header">
-                                <span class="qna-title">${teksPertanyaan}</span>
-                                <span class="accordion-icon">▼</span>
-                            </button>
-                            <div class="accordion-content">
-                                ${elemenGambar}
-                                <p class="qna-desc">${jawaban}</p>
-                            </div>
+                    // Membuat elemen item QnA
+                    const item = document.createElement('div');
+                    item.className = 'accordion-item qna-item';
+                    item.innerHTML = `
+                        <button class="accordion-header">
+                            <span class="qna-title">${titleText}</span>
+                            <span class="accordion-icon">▼</span>
+                        </button>
+                        <div class="accordion-content">
+                            ${imgHtml}
+                            <p class="qna-desc">${jawab}</p>
                         </div>
                     `;
-                    qnaContainer.innerHTML += accordionItem;
-                }
+                    container.appendChild(item);
+                });
 
                 initAccordion();
-                initSearch(); // Aktifkan fungsi pencarian
+                initSearch(); // Mengaktifkan fitur pencarian setelah data dimuat
             })
-            .catch(error => {
+            .catch(err => {
                 document.getElementById('qna-container').innerHTML = 
-                    '<p style="text-align: center; color: #E02424; padding: 20px; background: #FDE8E8; border-radius: 8px; border: 1px solid #F8B4B4;"><b>Gagal memuat QnA.</b><br>Pastikan link yang Anda masukkan adalah link berformat CSV, bukan link Halaman Web.</p>';
-                console.error('Error fetching CSV:', error);
+                    `<p style="text-align: center; color: #E02424; padding: 20px; background: #FDE8E8; border-radius: 8px; border: 1px solid #F8B4B4;">
+                        <b>Gagal memuat data QnA.</b><br>Pastikan akses Google Sheets Anda diatur ke <b>"Anyone with the link"</b> (Siapa saja yang memiliki link).
+                    </p>`;
+                console.error('Error fetching Sheets:', err);
             });
 
         // --- 3. Logika Klik Accordion ---
         function initAccordion() {
-            document.querySelectorAll('.accordion-header').forEach(button => {
-                button.addEventListener('click', () => {
-                    const item = button.parentElement;
-                    const isActive = item.classList.contains('active');
+            document.querySelectorAll('.accordion-header').forEach(btn => {
+                btn.onclick = () => {
+                    const parent = btn.parentElement;
+                    const isActive = parent.classList.contains('active');
                     
-                    document.querySelectorAll('.accordion-item').forEach(acc => {
-                        acc.classList.remove('active');
-                    });
-
-                    if (!isActive) {
-                        item.classList.add('active');
-                    }
-                });
+                    // Menutup semua accordion agar tampilan tetap rapi
+                    document.querySelectorAll('.accordion-item').forEach(x => x.classList.remove('active'));
+                    
+                    // Membuka yang sedang diklik
+                    if (!isActive) parent.classList.add('active');
+                };
             });
         }
 
-        // --- 4. Logika Pencarian (Search) QnA ---
+        // --- 4. Logika Fitur Search (Pencarian) ---
         function initSearch() {
             document.getElementById('searchInput').addEventListener('input', function() {
                 const keyword = this.value.toLowerCase();
                 const qnaItems = document.querySelectorAll('.qna-item');
 
                 qnaItems.forEach(item => {
-                    // Ambil teks pertanyaan dan jawaban
                     const pertanyaan = item.querySelector('.qna-title').textContent.toLowerCase();
                     const jawaban = item.querySelector('.qna-desc').textContent.toLowerCase();
 
-                    // Jika kata kunci cocok dengan pertanyaan ATAU jawaban, tampilkan
+                    // Mencocokkan kata kunci dengan pertanyaan atau jawaban
                     if (pertanyaan.includes(keyword) || jawaban.includes(keyword)) {
                         item.style.display = 'block';
                     } else {
-                        // Sembunyikan jika tidak cocok
                         item.style.display = 'none';
-                        item.classList.remove('active'); // Tutup accordion jika sedang terbuka
+                        item.classList.remove('active'); // Otomatis menutup jika disembunyikan
                     }
                 });
             });
-        }
-
-        // --- 5. Parser CSV Handal ---
-        function parseCSV(str) {
-            const arr = [];
-            let quote = false;
-            for (let row = 0, col = 0, c = 0; c < str.length; c++) {
-                let cc = str[c], nc = str[c+1];
-                arr[row] = arr[row] || [];
-                arr[row][col] = arr[row][col] || '';
-                
-                if (cc == '"' && quote && nc == '"') { arr[row][col] += cc; ++c; continue; }
-                if (cc == '"') { quote = !quote; continue; }
-                if (cc == ',' && !quote) { ++col; continue; }
-                if (cc == '\r' && nc == '\n' && !quote) { ++row; col = 0; ++c; continue; }
-                if (cc == '\n' && !quote) { ++row; col = 0; continue; }
-                if (cc == '\r' && !quote) { ++row; col = 0; continue; }
-                
-                arr[row][col] += cc;
-            }
-            return arr;
         }
     </script>
 </body>
