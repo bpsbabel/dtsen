@@ -179,7 +179,7 @@
             document.getElementById('btn-' + tabName).classList.add('active');
         }
 
-        // FUNGSI BARU (DIPERKUAT): Mengubah link dari berbagai sumber agar langsung terbuka (termasuk semua format gambar dan PNG)
+        // FUNGSI BARU (ANTI-BLOKIR GOOGLE DRIVE)
         function convertImageLink(url) {
             if (!url) return '';
             url = url.trim();
@@ -188,16 +188,15 @@
             const driveMatch = url.match(/\/(?:d|file\/d)\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
             
             if (driveMatch && driveMatch[1] && url.includes('drive.google.com')) {
-                // Menggunakan endpoint "uc?id=" yang stabil untuk merender secara utuh file gambar (PNG, JPG, dll) dari Drive
-                return `https://drive.google.com/uc?id=${driveMatch[1]}`;
+                // Menggunakan endpoint Thumbnail API yang stabil dan diizinkan oleh Google
+                // Parameter sz=w1000 digunakan agar kualitas gambar tetap jernih dan tajam (lebar 1000px)
+                return `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w1000`;
             }
 
-            // Jika link berasal dari Dropbox, pastikan link mengarah ke raw image
             if (url.includes('dropbox.com')) {
                 return url.replace('dl=0', 'raw=1').replace('dl=1', 'raw=1');
             }
 
-            // Kembalikan URL asli jika sudah berupa direct link (.png, .jpg) dari server lain
             return url; 
         }
 
@@ -226,7 +225,7 @@
 
                     const titleText = (nomor.toString().trim() !== '') ? `${nomor}. ${tanya}` : tanya;
 
-                    // Melewati link mentah ke fungsi konverter Link yang lebih kuat
+                    // Melewati link mentah ke fungsi konverter Link yang telah menggunakan Thumbnail API
                     const gambarFinal = convertImageLink(linkMentah);
 
                     let imgHtml = '';
@@ -235,7 +234,7 @@
                             <div style="margin-top: 16px; margin-bottom: 12px; background: #F8FAFC; padding: 8px; border-radius: 8px; border: 1px solid var(--border); display: inline-block;">
                                 <img src="${gambarFinal}" alt="Ilustrasi Kendala" 
                                      style="max-width: 100%; max-height: 450px; border-radius: 4px; display: block;"
-                                     onerror="this.onerror=null; this.parentElement.innerHTML='<span style=\\'color:#E02424; font-size:0.85rem;\\'>⚠️ Gambar tidak dapat dimuat. Pastikan akses file tersebut di Google Drive sudah diubah menjadi <b>Anyone with the link</b> (Siapa saja yang memiliki link).</span>';">
+                                     onerror="this.onerror=null; this.parentElement.innerHTML='<span style=\\'color:#E02424; font-size:0.85rem;\\'>⚠️ Gambar gagal dimuat. Pastikan akses link di Google Drive Anda adalah \\'Siapa saja yang memiliki link\\' (Anyone with the link).</span>';">
                             </div>
                         `;
                     }
