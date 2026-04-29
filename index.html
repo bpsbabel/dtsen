@@ -18,7 +18,14 @@
         
         /* Header dengan Logo */
         header { padding: 40px 5% 20px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 15px; }
-        .header-logo { height: 130px; width: auto; object-fit: contain; }
+        .header-logo { 
+            height: 140px; /* Memperbesar ukuran awal logo agar saat di-crop tidak kekecilan */
+            width: auto; 
+            object-fit: contain; 
+            clip-path: inset(25% 0 25% 0); /* Memotong 25% atas, 0 kanan, 25% bawah, 0 kiri */
+            margin-top: -35px; /* Menarik logo ke atas untuk menutupi ruang kosong bekas potongan */
+            margin-bottom: -35px; /* Menarik teks di bawahnya ke atas untuk menutupi ruang kosong bekas potongan */
+        }
         header h1 { font-size: 2rem; font-weight: 800; color: var(--primary); }
         header p { color: var(--text-muted); font-weight: 500; font-size: 1rem; }
 
