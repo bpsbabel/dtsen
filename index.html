@@ -3,30 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Groundcheck DTSEN BPS</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Portal Groundcheck DTSEN - BPS Babel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #0F62FE;
-            --bg-color: #F4F7F9;
-            --surface: #FFFFFF;
-            --text-main: #1A1A1A;
-            --text-muted: #5E6A75;
-            --radius: 16px;
+            --primary: #0F62FE; --bg-color: #F4F7F9; --surface: #FFFFFF;
+            --text-main: #1A1A1A; --text-muted: #5E6A75; --radius: 16px;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
         body { 
             background: linear-gradient(135deg, #F4F7F9 0%, #E9F0F6 100%); 
             color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column;
         }
-        header { padding: 40px 5%; text-align: center; }
-        header h1 { font-size: 2rem; font-weight: 800; color: var(--primary); margin-bottom: 10px; }
-        header p { color: var(--text-muted); font-weight: 500; }
+        
+        /* Header dengan Logo */
+        header { padding: 40px 5% 20px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        .header-logo { height: 60px; width: auto; object-fit: contain; }
+        header h1 { font-size: 2rem; font-weight: 800; color: var(--primary); }
+        header p { color: var(--text-muted); font-weight: 500; font-size: 1rem; }
 
         .hero-container {
-            max-width: 900px; margin: auto; padding: 20px;
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;
-            width: 100%;
+            max-width: 900px; margin: 20px auto auto; padding: 20px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;
+            width: 100%; flex: 1;
         }
         .portal-card {
             background: var(--surface); padding: 40px 30px; border-radius: var(--radius);
@@ -41,36 +40,51 @@
         .icon-box {
             width: 80px; height: 80px; background: #F0F4FF; color: var(--primary);
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 2rem; margin-bottom: 10px;
+            font-size: 2.5rem; margin-bottom: 10px;
         }
-        .portal-card h2 { font-size: 1.5rem; color: var(--text-main); }
+        .portal-card h2 { font-size: 1.4rem; color: var(--text-main); font-weight: 700; }
         .portal-card p { color: var(--text-muted); font-size: 0.95rem; }
         
-        footer { padding: 30px; text-align: center; color: var(--text-muted); font-size: 0.85rem; font-weight: 600; }
+        /* Footer Copyright */
+        footer { padding: 25px 20px; text-align: center; color: var(--text-muted); font-size: 0.85rem; font-weight: 600; margin-top: auto; }
+
+        /* Responsif untuk Handphone */
+        @media (max-width: 768px) {
+            header { padding: 30px 20px 15px; }
+            .header-logo { height: 45px; }
+            header h1 { font-size: 1.6rem; }
+            .hero-container { gap: 15px; padding: 15px; }
+            .portal-card { padding: 30px 20px; }
+            .icon-box { width: 65px; height: 65px; font-size: 2rem; }
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>Portal Groundcheck DTSEN</h1>
-        <p>Badan Pusat Statistik Provinsi Kepulauan Bangka Belitung</p>
+        <img src="logo_bps.png" alt="Logo BPS Babel" class="header-logo">
+        <div>
+            <h1>Portal Groundcheck DTSEN</h1>
+            <p>Badan Pusat Statistik Provinsi Kepulauan Bangka Belitung</p>
+        </div>
     </header>
 
     <div class="hero-container">
+        <!-- Untuk Halaman PBI Anda bisa duplicate file pln.html nanti -->
         <a href="pbi.html" class="portal-card">
             <div class="icon-box">📋</div>
             <h2>Groundcheck PBI</h2>
-            <p>Monitoring progres dan kendala lapangan kegiatan PBI.</p>
+            <p>Monitoring progres dan pusat bantuan (QnA) kegiatan PBI.</p>
         </a>
 
         <a href="pln.html" class="portal-card">
             <div class="icon-box">⚡</div>
             <h2>Groundcheck PLN</h2>
-            <p>Monitoring progres dan kendala lapangan kegiatan PLN.</p>
+            <p>Monitoring progres dan pusat bantuan (QnA) kegiatan PLN.</p>
         </a>
     </div>
 
     <footer>
-        &copy; 2026 Tim Humas dan Protokol - BPS Prov. Kepulauan Bangka Belitung
+        &copy; 2026 BPS Prov. Kepulauan Bangka Belitung. Hak Cipta Dilindungi.
     </footer>
 </body>
 </html>
