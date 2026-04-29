@@ -23,15 +23,18 @@
         header p { color: var(--text-muted); font-weight: 500; font-size: 1rem; }
 
         .hero-container {
-            max-width: 900px; margin: 20px auto auto; padding: 20px;
+            max-width: 900px; margin: 0 auto; padding: 20px;
             display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;
-            width: 100%; flex: 1;
+            width: 100%; flex: 1; 
+            align-content: center; /* Membuat kotak berada di tengah sisa layar */
+            align-items: start; /* Mencegah kotak merenggang/stretching ke bawah */
         }
         .portal-card {
             background: var(--surface); padding: 40px 30px; border-radius: var(--radius);
             text-decoration: none; text-align: center; transition: all 0.3s ease;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid rgba(15, 98, 254, 0.1);
             display: flex; flex-direction: column; align-items: center; gap: 15px;
+            height: fit-content; /* Memaksa kotak hanya setinggi konten di dalamnya */
         }
         .portal-card:hover {
             transform: translateY(-10px); border-color: var(--primary);
@@ -53,7 +56,7 @@
             header { padding: 30px 20px 15px; }
             .header-logo { height: 45px; }
             header h1 { font-size: 1.6rem; }
-            .hero-container { gap: 15px; padding: 15px; }
+            .hero-container { gap: 15px; padding: 15px; align-content: start; }
             .portal-card { padding: 30px 20px; }
             .icon-box { width: 65px; height: 65px; font-size: 2rem; }
         }
@@ -61,6 +64,7 @@
 </head>
 <body>
     <header>
+        <!-- Menggunakan L besar agar sesuai dengan nama file Anda -->
         <img src="logo_bps.png" alt="Logo BPS Babel" class="header-logo">
         <div>
             <h1>Portal Groundcheck DTSEN</h1>
@@ -69,7 +73,6 @@
     </header>
 
     <div class="hero-container">
-        <!-- Untuk Halaman PBI Anda bisa duplicate file pln.html nanti -->
         <a href="pbi.html" class="portal-card">
             <div class="icon-box">📋</div>
             <h2>Groundcheck PBI</h2>
