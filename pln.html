@@ -3,117 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monitoring PLN & QnA - Portal DTSEN</title>
+    <title>Monitoring PLN - Portal DTSEN</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #0F62FE; --bg-color: #F4F7F9; --surface: #FFFFFF; --text-main: #1A1A1A; --text-muted: #5E6A75; --border: #E0E0E0; --radius: 12px; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-        html { scroll-behavior: smooth; scroll-padding-top: 170px; }
-        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; padding-bottom: 50px; }
+        html { scroll-behavior: smooth; scroll-padding-top: 150px; }
+        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
 
-        /* Navbar Sticky */
+        /* Navbar Sticky & Header Logo */
         .sticky-wrapper { position: sticky; top: 0; z-index: 100; background: var(--surface); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        header { padding: 15px 5%; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-        header h1 { font-size: 1.2rem; font-weight: 700; color: var(--primary); }
-        .top-nav { display: flex; gap: 10px; padding: 10px 5%; overflow-x: auto; }
-        .nav-link { text-decoration: none; font-weight: 600; color: var(--text-muted); padding: 8px 16px; border-radius: 8px; transition: 0.3s; font-size: 0.9rem; }
+        header { padding: 15px 5%; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 15px; }
+        .header-logo { height: 40px; width: auto; object-fit: contain; cursor: pointer; }
+        .header-text h1 { font-size: 1.3rem; font-weight: 700; color: var(--primary); cursor: pointer; line-height: 1.2; }
+        .header-text p { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
+        
+        .top-nav { display: flex; gap: 10px; padding: 10px 5%; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; }
+        .nav-link { text-decoration: none; font-weight: 600; color: var(--text-muted); padding: 8px 16px; border-radius: 8px; transition: 0.3s; font-size: 0.9rem; background: var(--bg-color); }
         .nav-link:hover, .nav-link.active { background: var(--primary); color: white; }
 
-        .container { max-width: 900px; margin: 30px auto; padding: 0 20px; }
+        .container { max-width: 900px; margin: 30px auto; padding: 0 20px; flex: 1; width: 100%; }
         .section-card { background: var(--surface); padding: 24px; border-radius: var(--radius); margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
         .section-title { font-size: 1.2rem; font-weight: 700; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 20px; }
 
-        /* Tabel */
-        .table-responsive { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        /* Tabel & Materi */
+        .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; min-width: 500px; }
         th, td { padding: 14px; border-bottom: 1px solid var(--border); text-align: left; }
         th { background: #F8FAFC; color: var(--text-muted); font-weight: 600; }
+        .materi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+        .btn-materi { display: flex; align-items: center; justify-content: center; padding: 12px; background: var(--bg-color); border: 1px solid var(--border); border-radius: 8px; text-decoration: none; color: var(--text-main); font-weight: 600; font-size: 0.9rem; }
 
         /* QnA Components */
         .search-input { width: 100%; padding: 14px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 20px; font-size: 0.95rem; outline: none; background: var(--bg-color); }
         .search-input:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 3px rgba(15, 98, 254, 0.1); }
-        .category-label { font-size: 1rem; font-weight: 700; color: var(--primary); margin: 20px 0 10px 0; display: flex; align-items: center; gap: 8px; }
         
-        .accordion-item { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 10px; overflow: hidden; background: #fff; }
-        .accordion-header { width: 100%; padding: 15px; text-align: left; background: none; border: none; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; font-size: 0.95rem; }
-        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; background: var(--bg-color); }
-        .inner-box { padding: 15px; }
-        .qna-img { max-width: 100%; max-height: 300px; border-radius: 6px; cursor: zoom-in; margin-bottom: 10px; border: 1px solid var(--border); }
+        /* TABS UNTUK QnA */
+        .qna-tabs { display: flex; overflow-x: auto; border-bottom: 2px solid var(--border); margin-bottom: 20px; gap: 5px; -webkit-overflow-scrolling: touch; }
+        .qna-tab-btn { background: none; border: none; padding: 10px 15px; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: 0.3s; white-space: nowrap; font-size: 0.95rem; border-bottom: 3px solid transparent; }
+        .qna-tab-btn:hover { color: var(--primary); }
+        .qna-tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+        
+        .qna-tab-content { display: none; }
+        .qna-tab-content.active { display: block; animation: fadeIn 0.4s; }
+        
+        /* Style untuk mode Pencarian */
+        .is-searching .qna-tabs { display: none; } /* Sembunyikan tab saat mencari */
+        .is-searching .qna-tab-content { display: block; } /* Tampilkan semua konten tab saat mencari */
+        .search-cat-title { display: none; font-size: 1rem; color: var(--primary); margin-bottom: 12px; font-weight: 700; padding-top: 10px; }
+        .is-searching .search-cat-title { display: block; } /* Tampilkan judul kategori saat mencari */
 
-        /* Modal */
+        .accordion-item { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 10px; overflow: hidden; background: #fff; }
+        .accordion-header { width: 100%; padding: 15px; text-align: left; background: none; border: none; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; font-size: 0.95rem; line-height: 1.4; gap: 10px; }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; background: var(--bg-color); }
+        .inner-box { padding: 15px; font-size: 0.9rem; white-space: pre-line; }
+        .qna-img { max-width: 100%; max-height: 250px; border-radius: 6px; cursor: zoom-in; margin-bottom: 10px; border: 1px solid var(--border); display: block; }
+
+        /* Modal & Zoom Controls */
         .modal { display: none; position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); overflow: auto; }
-        .modal-container { display: flex; min-width: 100%; min-height: 100%; padding: 40px; }
-        .modal-content { margin: auto; max-width: 90%; transition: width 0.2s; cursor: crosshair; }
-        .zoom-controls { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 2001; }
-        .zoom-btn { background: white; border: 1px solid var(--border); padding: 10px 20px; border-radius: 30px; font-weight: bold; cursor: pointer; }
+        .modal-container { display: flex; min-width: 100%; min-height: 100%; padding: 20px; align-items: center; justify-content: center; }
+        .modal-content { margin: auto; max-width: 100%; transition: width 0.2s; cursor: crosshair; }
+        .zoom-controls { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 2001; background: rgba(255,255,255,0.9); padding: 8px 15px; border-radius: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .zoom-btn { background: var(--surface); border: 1px solid var(--border); padding: 8px 16px; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 0.9rem; }
+        .close-modal { position: fixed; top: 15px; right: 20px; color: white; font-size: 35px; cursor: pointer; z-index: 2002; }
+
+        /* Footer */
+        footer { padding: 20px; text-align: center; color: var(--text-muted); font-size: 0.85rem; font-weight: 600; margin-top: auto; border-top: 1px solid var(--border); background: var(--surface); }
+
+        /* Responsif HP */
+        @media (max-width: 768px) {
+            header { padding: 12px 15px; }
+            .header-logo { height: 32px; }
+            .header-text h1 { font-size: 1.1rem; }
+            .container { padding: 0 15px; margin: 20px auto; }
+            .section-card { padding: 18px; }
+            .accordion-header { flex-direction: column; }
+            .accordion-header span:last-child { align-self: flex-end; }
+            .zoom-controls { width: 90%; justify-content: space-between; }
+            .zoom-btn { padding: 8px 12px; font-size: 0.85rem; }
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div class="sticky-wrapper">
         <header>
-            <h1 onclick="window.location.href='index.html'" style="cursor:pointer;">DTSEN Portal</h1>
-            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Groundcheck PLN</div>
+            <img src="logo_bps.png" alt="Logo BPS" class="header-logo" onclick="window.location.href='index.html'">
+            <div class="header-text">
+                <h1 onclick="window.location.href='index.html'">Portal DTSEN</h1>
+                <p>Groundcheck PLN</p>
+            </div>
         </header>
         <nav class="top-nav">
             <a href="index.html" class="nav-link">🏠 Home</a>
             <a href="#monitoring" class="nav-link active">📊 Monitoring</a>
+            <a href="#materi" class="nav-link">📚 Materi</a>
             <a href="#qna" class="nav-link">❓ QnA Petugas</a>
         </nav>
     </div>
 
     <div class="container">
+        <!-- Section Monitoring -->
         <section id="monitoring" class="section-card">
             <h2 class="section-title">Monitoring Progress PLN</h2>
             <div class="table-responsive">
                 <table>
                     <thead><tr><th>ULP</th><th>Target</th><th>Realisasi</th><th>Status</th></tr></thead>
                     <tbody>
-                        <tr><td>Pangkal Pinang</td><td>1.200</td><td>850</td><td><span style="color:#B06000; font-weight:700;">On Progress</span></td></tr>
+                        <tr><td>Pangkal Pinang</td><td>67</td><td>67</td><td><span style="color:#1E8E3E; background:#E6F4EA; padding:4px 8px; border-radius:12px; font-weight:700;">Lengkap</span></td></tr>
+                        <tr><td>Sungailiat</td><td>45</td><td>16</td><td><span style="color:#B06000; background:#FEF7E0; padding:4px 8px; border-radius:12px; font-weight:700;">Kurang Petugas</span></td></tr>
                     </tbody>
                 </table>
             </div>
         </section>
 
+        <!-- Section Materi -->
+        <section id="materi" class="section-card">
+            <h2 class="section-title">Materi & Pedoman</h2>
+            <div class="materi-grid">
+                <a href="URL_DRIVE_DISINI" target="_blank" class="btn-materi">📘 Buku Pedoman</a>
+                <a href="URL_DRIVE_DISINI" target="_blank" class="btn-materi">📄 Surat Tugas</a>
+            </div>
+        </section>
+
+        <!-- Section QnA Tabs -->
         <section id="qna" class="section-card">
             <h2 class="section-title">Pusat Bantuan (QnA)</h2>
-            <input type="text" id="searchInput" class="search-input" placeholder="🔍 Cari kendala Mitra, Dashboard, atau Mobile...">
+            <input type="text" id="searchInput" class="search-input" placeholder="🔍 Cari kendala di semua tab...">
 
-            <div class="qna-block" id="block-mitra">
-                <div class="category-label">📂 Manajemen Mitra BPS</div>
-                <div id="qna-mitra">Memuat data...</div>
-            </div>
+            <div id="qna-wrapper">
+                <!-- TABS -->
+                <div class="qna-tabs">
+                    <button class="qna-tab-btn active" onclick="openQnaTab('qna-sobat', this)">Sobat BPS</button>
+                    <button class="qna-tab-btn" onclick="openQnaTab('qna-dashboard', this)">Fasih Dashboard</button>
+                    <button class="qna-tab-btn" onclick="openQnaTab('qna-mobile', this)">Fasih Mobile</button>
+                </div>
 
-            <div class="qna-block" id="block-dashboard">
-                <div class="category-label">💻 Dashboard Fasih</div>
-                <div id="qna-dashboard">Memuat data...</div>
-            </div>
+                <!-- TAB CONTENT 1 -->
+                <div id="qna-sobat" class="qna-tab-content active">
+                    <div class="search-cat-title">📁 Sobat BPS</div>
+                    <div id="list-sobat">⏳ Memuat data...</div>
+                </div>
 
-            <div class="qna-block" id="block-mobile">
-                <div class="category-label">📱 Fasih Mobile</div>
-                <div id="qna-mobile">Memuat data...</div>
+                <!-- TAB CONTENT 2 -->
+                <div id="qna-dashboard" class="qna-tab-content">
+                    <div class="search-cat-title">💻 Fasih Dashboard</div>
+                    <div id="list-dashboard">⏳ Memuat data...</div>
+                </div>
+
+                <!-- TAB CONTENT 3 -->
+                <div id="qna-mobile" class="qna-tab-content">
+                    <div class="search-cat-title">📱 Fasih Mobile</div>
+                    <div id="list-mobile">⏳ Memuat data...</div>
+                </div>
             </div>
         </section>
     </div>
 
+    <footer>
+        &copy; 2026 BPS Prov. Kepulauan Bangka Belitung. Hak Cipta Dilindungi.
+    </footer>
+
+    <!-- Modal Gambar -->
     <div id="imgModal" class="modal" onclick="closeModal()">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
         <div class="zoom-controls" onclick="event.stopPropagation()">
-            <button class="zoom-btn" onclick="zoomImg(-0.2)">➖</button>
+            <button class="zoom-btn" onclick="zoomImg(-0.3)">➖ Perkecil</button>
             <button class="zoom-btn" onclick="resetZoom()">Reset</button>
-            <button class="zoom-btn" onclick="zoomImg(0.2)">➕</button>
+            <button class="zoom-btn" onclick="zoomImg(0.3)">➕ Perbesar</button>
         </div>
         <div class="modal-container"><img id="imgFull" class="modal-content" onclick="event.stopPropagation()"></div>
     </div>
 
     <script>
-        const SPREADSHEET_ID = '1WnCEZFiEHFWCI31eUJj5qoPpik_26DE5Fzi8308IFL0';
-        const cats = [
-            { name: 'Mitra', id: 'qna-mitra' },
-            { name: 'Dashboard', id: 'qna-dashboard' },
-            { name: 'Mobile', id: 'qna-mobile' }
-        ];
+        // Logika Perpindahan Tab QnA
+        function openQnaTab(tabId, btnElement) {
+            // Sembunyikan semua tab content
+            document.querySelectorAll('.qna-tab-content').forEach(c => c.classList.remove('active'));
+            // Hapus status active dari semua tombol
+            document.querySelectorAll('.qna-tab-btn').forEach(b => b.classList.remove('active'));
+            
+            // Aktifkan yang dipilih
+            document.getElementById(tabId).classList.add('active');
+            btnElement.classList.add('active');
+        }
 
-        let scale = 1;
+        // Setup Tarik Data
+        const SPREADSHEET_ID = '1WnCEZFiEHFWCI31eUJj5qoPpik_26DE5Fzi8308IFL0';
+        
+        // PASTIKAN NAMA SHEET DI GOOGLE SHEETS PERSIS SAMA DENGAN INI
+        const cats = [
+            { name: 'Sobat BPS', id: 'list-sobat' },
+            { name: 'Fasih Dashboard', id: 'list-dashboard' },
+            { name: 'Fasih Mobile', id: 'list-mobile' }
+        ];
 
         function fixLink(url) {
             if (!url) return '';
@@ -121,14 +205,17 @@
             return m ? `https://drive.google.com/thumbnail?id=${m[1]}&sz=w1200` : url;
         }
 
-        // Fetch Semua Sheet
+        // Fetch Data Semua Tab dari Google Sheets
         Promise.all(cats.map(c => {
             return fetch(`https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${c.name}`)
                 .then(r => r.text())
                 .then(t => {
-                    const json = JSON.parse(t.match(/\{.*\}/s)[0]);
+                    const jsonMatch = t.match(/\{.*\}/s);
+                    if(!jsonMatch) throw new Error("No JSON");
+                    const json = JSON.parse(jsonMatch[0]);
                     const rows = json.table.rows;
                     let html = '';
+                    
                     rows.forEach(r => {
                         const no = r.c[0]?.v || '';
                         const q = r.c[1]?.v || '';
@@ -149,45 +236,81 @@
                             </div>
                         </div>`;
                     });
-                    document.getElementById(c.id).innerHTML = html || 'Data kosong.';
+                    document.getElementById(c.id).innerHTML = html || '<p style="color:var(--text-muted); padding: 10px;">Belum ada data.</p>';
+                }).catch(() => {
+                    document.getElementById(c.id).innerHTML = '<p style="color:red; padding: 10px;">Gagal memuat sheet: ' + c.name + '</p>';
                 });
-        })).catch(err => console.error("Error loading QnA"));
+        }));
 
+        // Logika Buka Tutup Jawaban (Accordion)
         function toggleAcc(el) {
             const content = el.nextElementSibling;
             const isOpen = content.style.maxHeight;
-            document.querySelectorAll('.accordion-content').forEach(c => c.style.maxHeight = null);
+            
+            // Tutup semua akordion di dalam tab yang sedang aktif saja
+            el.closest('.qna-tab-content').querySelectorAll('.accordion-content').forEach(c => c.style.maxHeight = null);
+            
             content.style.maxHeight = isOpen ? null : content.scrollHeight + "px";
         }
 
+        // Global Search (Menembus semua Tab)
+        document.getElementById('searchInput').oninput = function() {
+            const k = this.value.toLowerCase().trim();
+            const wrapper = document.getElementById('qna-wrapper');
+
+            if (k !== '') {
+                wrapper.classList.add('is-searching'); // Mode pencarian aktif, tab hilang
+            } else {
+                wrapper.classList.remove('is-searching'); // Mode pencarian mati, tab muncul kembali
+            }
+
+            // Saring semua kartu QnA
+            document.querySelectorAll('.qna-card').forEach(c => {
+                const text = c.innerText.toLowerCase();
+                c.style.display = text.includes(k) ? 'block' : 'none';
+            });
+
+            // Sembunyikan kategori yang tidak punya hasil pencarian
+            if (k !== '') {
+                cats.forEach(c => {
+                    const block = document.getElementById(c.id).parentElement;
+                    const hasVisible = Array.from(block.querySelectorAll('.qna-card')).some(i => i.style.display === 'block');
+                    
+                    // Kita mainkan style display element secara paksa (override CSS)
+                    block.style.display = hasVisible ? 'block' : 'none'; 
+                });
+            } else {
+                // Reset display block ke kosong agar class "active" CSS bekerja normal kembali
+                cats.forEach(c => {
+                    document.getElementById(c.id).parentElement.style.display = '';
+                });
+            }
+        };
+
+        // Modal dan Zoom Gambar
+        let scale = 1;
         function openModal(src) {
             document.getElementById('imgModal').style.display = 'block';
             document.getElementById('imgFull').src = src;
             resetZoom();
             document.body.style.overflow = 'hidden';
         }
-
         function closeModal() {
             document.getElementById('imgModal').style.display = 'none';
             document.body.style.overflow = 'auto';
         }
-
-        function zoomImg(v) { scale += v; document.getElementById('imgFull').style.width = (90 * scale) + '%'; document.getElementById('imgFull').style.maxWidth = 'none'; }
-        function resetZoom() { scale = 1; document.getElementById('imgFull').style.width = 'auto'; document.getElementById('imgFull').style.maxWidth = '90%'; }
-
-        // Global Search untuk semua kategori QnA
-        document.getElementById('searchInput').oninput = function() {
-            const k = this.value.toLowerCase();
-            document.querySelectorAll('.qna-card').forEach(c => {
-                c.style.display = c.innerText.toLowerCase().includes(k) ? 'block' : 'none';
-            });
-            // Hide Category label jika kosong
-            cats.forEach(c => {
-                const block = document.getElementById('block-' + c.name.toLowerCase());
-                const hasVisible = Array.from(block.querySelectorAll('.qna-card')).some(i => i.style.display !== 'none');
-                block.style.display = hasVisible ? 'block' : 'none';
-            });
-        };
+        function zoomImg(v) { 
+            scale += v; 
+            if(scale < 0.5) scale = 0.5;
+            if(scale > 3) scale = 3;
+            document.getElementById('imgFull').style.width = (100 * scale) + '%'; 
+            document.getElementById('imgFull').style.maxWidth = 'none'; 
+        }
+        function resetZoom() { 
+            scale = 1; 
+            document.getElementById('imgFull').style.width = 'auto'; 
+            document.getElementById('imgFull').style.maxWidth = '100%'; 
+        }
     </script>
 </body>
 </html>
