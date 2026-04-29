@@ -133,7 +133,7 @@
         <!-- Section QnA Tabs -->
         <section id="qna" class="section-card">
             <h2 class="section-title">Pusat Bantuan (QnA)</h2>
-            <input type="text" id="searchInput" class="search-input" placeholder="🔍 Cari kendala di semua tab...">
+            <input type="text" id="searchInput" class="search-input" placeholder="🔍 Cari kendala di semua topik...">
 
             <div id="qna-wrapper">
                 <div class="qna-tabs">
@@ -228,7 +228,7 @@
                             </div>
                         </div>`;
                     });
-                    document.getElementById(c.id).innerHTML = html || '<p style="color:var(--text-muted); padding: 10px;">Belum ada data.</p>';
+                    document.getElementById(c.id).innerHTML = html || '<p style="color:var(--text-muted); padding: 10px;">Belum ada pertanyaan.</p>';
                 }).catch(() => {
                     document.getElementById(c.id).innerHTML = '<p style="color:red; padding: 10px;">Gagal memuat sheet: ' + c.name + '</p>';
                 });
